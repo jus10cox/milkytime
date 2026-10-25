@@ -157,6 +157,10 @@ $("#q").addEventListener("input", e => { state.q=e.target.value; state.shown=48;
 $("#issue").addEventListener("change", e => { state.issue=e.target.value; state.shown=48; render(); });
 $("#sort").addEventListener("change", e => { state.sort=e.target.value; render(); });
 $("#more").addEventListener("click", () => { state.shown+=48; render(); });
+// Load the next batch automatically as the reader nears the bottom; the button stays as a fallback.
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(es => { if (es[0].isIntersecting && !$("#more").hidden) { state.shown+=48; render(); } }, {rootMargin:"800px 0px"}).observe($(".more"));
+}
 })();
 </script>
 </body>
