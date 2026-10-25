@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Milky Time Shop</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&family=Pinyon+Script&display=swap">
+<style>
+/* Layout: storybook shop. Centered script masthead, small-caps category nav, airy borderless product grid on pastel tiles */
+:root{
+  --bg:#fffdf5; --paper:#fffdf5; --ink:#3b302a; --muted:#7d6f66; --line:#ece4d6;
+  --accent:#b9666f; --accent-ink:#ffffff; --band:#f4ead9;
+  --photo:#f7f1e6; --blend:multiply; --t1:#f6e3e1; --t2:#e5ebdc; --t3:#f8edcf; --t4:#e1e9f1; --t5:#ebe3ef; --tile-ink:#c9b5a8;
+  --display:"Cormorant Garamond", Garamond, "Times New Roman", serif;
+  --body:"Jost", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --script:"Pinyon Script", "Snell Roundhand", cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#221c19; --paper:#221c19; --ink:#f3e9dc; --muted:#b4a598; --line:#3b322c;
+  --accent:#e0939b; --accent-ink:#221c19; --band:#2c2420;
+  --photo:#ffffff; --blend:normal; --t1:#3a2b2b; --t2:#2e3329; --t3:#3a3326; --t4:#2a3038; --t5:#332c37; --tile-ink:#6e5e54; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#221c19; --paper:#221c19; --ink:#f3e9dc; --muted:#b4a598; --line:#3b322c;
+  --accent:#e0939b; --accent-ink:#221c19; --band:#2c2420;
+  --photo:#ffffff; --blend:normal; --t1:#3a2b2b; --t2:#2e3329; --t3:#3a3326; --t4:#2a3038; --t5:#332c37; --tile-ink:#6e5e54; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.6 var(--body)}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band{background:var(--band);color:var(--ink);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;text-align:center}
+.band .wrap{padding-block:9px}
+header.mast{padding-block:44px 26px;display:grid;justify-items:center;gap:14px;text-align:center}
+.logo{display:block;width:min(420px,78vw);aspect-ratio:666/180;background:var(--ink);-webkit-mask:url(logo.png) center/contain no-repeat;mask:url(logo.png) center/contain no-repeat}
+.mast h1{margin:0;font:600 .8rem var(--body);letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+.mast p{margin:0;max-width:52ch;font:italic 500 1.3rem/1.45 var(--display);text-wrap:balance}
+.mast a{color:var(--accent)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.shelf{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-block:1px solid var(--line)}
+.shelf .wrap{padding-block:10px;display:grid;gap:8px}
+.chips{display:flex;gap:4px 22px;overflow-x:auto;scrollbar-width:none;justify-content:safe center;padding-block:4px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font:500 .76rem var(--body);letter-spacing:.14em;text-transform:uppercase;padding:6px 0;border:0;border-bottom:1.5px solid transparent;background:none;color:var(--ink);cursor:pointer;white-space:nowrap}
+.chip small{display:none}
+.chip:hover{color:var(--accent)}
+.chip[aria-pressed="true"]{border-bottom-color:var(--accent);color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+.search{flex:1 1 100%;min-width:0}
+.search input{width:100%;box-sizing:border-box;font:inherit;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink)}
+.search input::placeholder{color:var(--muted)}
+.row select{flex:1 1 140px}
+select{font:inherit;font-size:.88rem;padding:8px 40px 8px 16px;border:1px solid var(--line);border-radius:999px;color:var(--ink);max-width:100%;-webkit-appearance:none;appearance:none;cursor:pointer;background-color:var(--paper);background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 21px) 52%,calc(100% - 16px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{padding-block:28px 70px}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.head h2{margin:0;font:500 clamp(1.7rem,4vw,2.4rem)/1.1 var(--display)}
+.count{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:40px 24px}
+.card{display:grid;grid-template-rows:auto auto auto 1fr auto;gap:6px;min-width:0;text-align:center}
+.thumb{aspect-ratio:1;max-width:100%;border-radius:6px;background:var(--photo);display:grid;place-items:center;overflow:hidden;margin-bottom:10px}
+.thumb img{width:100%;height:100%;object-fit:contain;mix-blend-mode:var(--blend);transition:transform .4s ease}
+.card:hover .thumb img{transform:scale(1.04)}
+.thumb.ph{background:var(--tint,var(--t1))}
+.thumb.ph span{font:400 5.5rem/1 var(--script);color:var(--tile-ink);user-select:none;transform:translateY(-4%)}
+.tag{font:500 .68rem var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.card h3{margin:0;font:600 1.28rem/1.2 var(--display);text-wrap:balance;overflow-wrap:anywhere}
+.card blockquote{margin:0 auto;max-width:34ch;color:var(--muted);font:italic 500 1.02rem/1.4 var(--display)}
+.card .foot{display:grid;justify-items:center;gap:10px;padding-top:10px}
+.from{font-size:.74rem;color:var(--muted);letter-spacing:.02em}
+.from a{color:inherit}
+.btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.shop{font:500 .74rem var(--body);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:9px 22px;border-radius:999px;background:var(--ink);color:var(--bg)}
+.alt{font:500 .74rem var(--body);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:8px 16px;border-radius:999px;border:1px solid var(--ink);color:var(--ink)}
+.shop:hover{background:var(--accent);color:var(--accent-ink)} .alt:hover{border-color:var(--accent);color:var(--accent)}
+.more{display:flex;justify-content:center;padding-top:44px}
+.more button{font:500 .78rem var(--body);letter-spacing:.16em;text-transform:uppercase;padding:12px 28px;border-radius:999px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.more button:hover{border-color:var(--accent);color:var(--accent)}
+.empty{padding:60px 0;text-align:center;color:var(--muted);font:italic 500 1.2rem var(--display)}
+footer{background:var(--band);color:var(--muted);font-size:.82rem;text-align:center}
+footer .wrap{padding-block:34px;display:grid;gap:6px;justify-items:center}
+footer .sig{font:400 2rem/1 var(--script);color:var(--ink)}
+footer a{color:var(--ink)}
+@media (min-width:760px){.search{flex:0 1 380px}.row select{flex:0 1 auto}}
+@media (max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}.card h3{font-size:1.08rem}.card blockquote{font-size:.92rem}.thumb.ph span{font-size:4rem}.chips{justify-content:flex-start}}
+@media (prefers-reduced-motion:reduce){.thumb img{transition:none}}
+</style>
+</head>
+<body>
+<div class="band"><div class="wrap">Many links are affiliate links and support Milky Time at no cost to you</div></div>
+<header class="wrap mast">
+  <a href="https://milkytime.substack.com" target="_blank" rel="noopener" aria-label="Milky Time on Substack"><span class="logo" role="img" aria-label="Milky Time"></span></a>
+  <h1>The Shop</h1>
+  <p>Every Milky Time recommendation, in one place.</p>
+</header>
+<div class="shelf"><div class="wrap">
+  <div class="chips" id="chips" role="toolbar" aria-label="Categories"></div>
+  <div class="row">
+    <label class="search"><span hidden>Search</span><input id="q" type="search" placeholder="Search nursing bras, sensory tables, Dôen…" autocomplete="off"></label>
+    <select id="issue" aria-label="Filter by issue"><option value="">All issues</option></select>
+    <select id="sort" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="az">A to Z</option></select>
+  </div>
+</div></div>
+<main class="wrap">
+  <div class="head"><h2 id="title">All picks</h2><span class="count" id="count"></span></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>Nothing matches that yet. Try a shorter search or another category.</div>
+  <div class="more"><button id="more" type="button" hidden>Show more</button></div>
+</main>
+<footer><div class="wrap"><span class="sig">with love, Miranda</span><span>Collected from every public issue of <a href="https://milkytime.substack.com" target="_blank" rel="noopener">Milky Time</a>, May to October 2026.</span></div></footer>
+<script>
+(async () => {
+const DATA = window.DATA || await (await fetch("items.json")).json();
+const {posts:POSTS, items:ITEMS} = DATA;
+const CATS = ["Pregnancy & maternity","Birth & postpartum","Feeding","Diapering","Bath & grooming","Sleep & nursery","Play & learning","On the go","Health & safety","Kids' clothes","Mom style","Beauty & self-care","Home & gifts","Books"];
+const $ = s => document.querySelector(s);
+const state = {q:"", cat:"", issue:"", sort:"new", shown:48};
+try { const s = JSON.parse(localStorage.getItem("mt-filters")||"{}"); if (s.cat && CATS.includes(s.cat)) state.cat = s.cat; } catch(e){}
+const fmt = d => new Date(d+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+ITEMS.forEach(i => i._s = norm(i.name+" "+i.note+" "+i.cat));
+const altLabel = u => /amazon/.test(u) ? "Amazon" : "Alt link";
+
+function chips(){
+  const counts = {}; ITEMS.forEach(i => counts[i.cat]=(counts[i.cat]||0)+1);
+  $("#chips").innerHTML = [["", "Everything", ITEMS.length], ...CATS.filter(c=>counts[c]).map(c=>[c,c,counts[c]])]
+    .map(([v,l,n]) => `<button class="chip" type="button" data-cat="${v}" aria-pressed="${state.cat===v}">${l}<small>${n}</small></button>`).join("");
+}
+function issues(){
+  const opts = Object.entries(POSTS).filter(([s]) => ITEMS.some(i=>i.posts.includes(s))).sort((a,b)=>b[1].date.localeCompare(a[1].date));
+  $("#issue").insertAdjacentHTML("beforeend", opts.map(([s,p]) => `<option value="${s}">${esc(p.title)}</option>`).join(""));
+}
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function card(i){
+  const p = POSTS[i.posts[0]];
+  const more = i.posts.length>1 ? ` +${i.posts.length-1} more` : "";
+  const th = i.img ? `<div class="thumb"><img src="${esc(i.img)}" alt="" loading="lazy" onerror="this.parentNode.className='thumb ph';this.replaceWith(Object.assign(document.createElement('span'),{textContent:'${esc(i.name[0])}'}))"></div>` : `<div class="thumb ph" style="--tint:var(--t${CATS.indexOf(i.cat)%5+1})" aria-hidden="true"><span>${esc(i.name[0])}</span></div>`;
+  return `<article class="card">${th}<span class="tag">${esc(i.cat)}</span><h3>${esc(i.name)}</h3><blockquote>${esc(i.note)}</blockquote>
+  <div class="foot"><span class="from">from <a href="${p.url}" target="_blank" rel="noopener">${esc(p.title)}</a>${more}</span>
+  <span class="btns"><a class="shop" href="${esc(i.href)}" target="_blank" rel="noopener sponsored">Shop</a>${i.alt?`<a class="alt" href="${esc(i.alt)}" target="_blank" rel="noopener sponsored">${altLabel(i.alt)}</a>`:""}</span></div></article>`;
+}
+function render(){
+  const q = norm(state.q.trim());
+  let list = ITEMS.filter(i => (!state.cat||i.cat===state.cat) && (!state.issue||i.posts.includes(state.issue)) && (!q||q.split(/\s+/).every(w=>i._s.includes(w))));
+  if (state.sort==="az") list.sort((a,b)=>a.name.localeCompare(b.name));
+  else list.sort((a,b)=> state.sort==="new" ? b.date.localeCompare(a.date)||a.id-b.id : a.date.localeCompare(b.date)||a.id-b.id);
+  $("#grid").innerHTML = list.slice(0,state.shown).map(card).join("");
+  $("#count").textContent = `${list.length} ${list.length===1?"pick":"picks"}`;
+  $("#title").textContent = state.issue ? POSTS[state.issue].title : (state.cat || "All picks");
+  $("#empty").hidden = list.length>0;
+  $("#more").hidden = list.length<=state.shown;
+  $("#more").textContent = `Show more (${list.length-state.shown} left)`;
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.cat===state.cat));
+}
+chips(); issues(); render();
+$("#chips").addEventListener("click", e => { const b=e.target.closest(".chip"); if(!b) return; state.cat=b.dataset.cat; state.shown=48; try{localStorage.setItem("mt-filters",JSON.stringify({cat:state.cat}))}catch(e){} render(); });
+$("#q").addEventListener("input", e => { state.q=e.target.value; state.shown=48; render(); });
+$("#issue").addEventListener("change", e => { state.issue=e.target.value; state.shown=48; render(); });
+$("#sort").addEventListener("change", e => { state.sort=e.target.value; render(); });
+$("#more").addEventListener("click", () => { state.shown+=48; render(); });
+})();
+</script>
+</body>
+</html>
