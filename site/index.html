@@ -112,7 +112,7 @@ footer a{color:var(--ink)}
   <div class="row">
     <label class="search"><span hidden>Search</span><input id="q" type="search" placeholder="Search nursing bras, sensory tables, Dôen…" autocomplete="off"></label>
     <select id="issue" aria-label="Filter by issue"><option value="">All issues</option></select>
-    <select id="sort" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="az">A to Z</option></select>
+    <select id="sort" aria-label="Sort"><option value="old">Oldest first</option><option value="new">Newest first</option><option value="az">A to Z</option></select>
   </div>
 </div></div>
 <main class="wrap">
@@ -134,7 +134,7 @@ const {posts:POSTS, items:ITEMS} = DATA;
 const CATS = ["Pregnancy & maternity","Birth & postpartum","Feeding","Diapering","Bath & grooming","Sleep & nursery","Play & learning","On the go","Health & safety","Kids' clothes","Mom style","Beauty & self-care","Home & gifts","Books"];
 const $ = s => document.querySelector(s);
 const DEFAULT_ISSUE = "the-milky-time-baby-registry-guide"; // the collection people land on
-const state = {q:"", cat:"", issue:DEFAULT_ISSUE, sort:"new", shown:48};
+const state = {q:"", cat:"", issue:DEFAULT_ISSUE, sort:"old", shown:48};
 try { const s = JSON.parse(localStorage.getItem("mt-filters")||"{}"); if (s.cat && CATS.includes(s.cat)) state.cat = s.cat; } catch(e){}
 const fmt = d => new Date(d+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
 const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
