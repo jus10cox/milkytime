@@ -76,8 +76,13 @@ main{padding-block:28px 70px}
 .more button:hover{border-color:var(--accent);color:var(--accent)}
 .empty{padding:60px 0;text-align:center;color:var(--muted);font:italic 500 1.2rem var(--display)}
 footer{background:var(--band);color:var(--muted);font-size:.82rem;text-align:center}
-footer .wrap{padding-block:34px;display:grid;gap:6px;justify-items:center}
+footer .wrap{display:grid;gap:6px;justify-items:center}
 footer .sig{font:400 2rem/1 var(--script);color:var(--ink)}
+footer .wrap{padding-block:44px}
+footer .pitch{margin:4px 0 8px;max-width:44ch;font:italic 500 1.15rem/1.45 var(--display);color:var(--ink);text-wrap:balance}
+footer .fine{margin-top:10px;font-size:.78rem}
+.sub{margin-top:6px;font:500 .72rem var(--body);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--accent);border:1px solid currentColor;border-radius:999px;padding:9px 20px}
+.sub:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 footer a{color:var(--ink)}
 @media (min-width:760px){.search{flex:0 1 380px}.row select{flex:0 1 auto}}
 @media (max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}.card h3{font-size:1.08rem}.card blockquote{font-size:.92rem}.thumb.ph span{font-size:4rem}.chips{justify-content:flex-start}}
@@ -90,6 +95,7 @@ footer a{color:var(--ink)}
   <a href="https://milkytime.substack.com" target="_blank" rel="noopener" aria-label="Milky Time on Substack"><span class="logo" role="img" aria-label="Milky Time"></span></a>
   <h1>The Shop</h1>
   <p>Every Milky Time recommendation, in one place.</p>
+  <a class="sub" href="https://milkytime.substack.com/subscribe" target="_blank" rel="noopener">Subscribe to the newsletter</a>
 </header>
 <div class="shelf"><div class="wrap">
   <div class="chips" id="chips" role="toolbar" aria-label="Categories"></div>
@@ -105,7 +111,12 @@ footer a{color:var(--ink)}
   <div class="empty" id="empty" hidden>Nothing matches that yet. Try a shorter search or another category.</div>
   <div class="more"><button id="more" type="button" hidden>Show more</button></div>
 </main>
-<footer><div class="wrap"><span class="sig">with love, Miranda</span><span>Collected from every public issue of <a href="https://milkytime.substack.com" target="_blank" rel="noopener">Milky Time</a>, May to October 2026.</span></div></footer>
+<footer><div class="wrap">
+  <span class="sig">Milky Time</span>
+  <p class="pitch">A free newsletter: a shopping guide for new parents, delivered with honesty. New picks land here every week.</p>
+  <a class="shop" href="https://milkytime.substack.com/subscribe" target="_blank" rel="noopener">Subscribe on Substack</a>
+  <span class="fine">Collected from every public issue of <a href="https://milkytime.substack.com" target="_blank" rel="noopener">Milky Time</a>.</span>
+</div></footer>
 <script>
 (async () => {
 const DATA = window.DATA || await (await fetch("items.json")).json();
