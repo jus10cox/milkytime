@@ -1,4 +1,5 @@
-# On every push to main: fetch thumbnails for any new products, commit them, then publish site/ to GitHub Pages.
+# On every push to main: fetch thumbnails for any new products, commit them, publish site/ to GitHub Pages,
+# then email Miranda a recap of any newly added products.
 name: Build and publish site
 on:
   push:
@@ -35,9 +36,28 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+  recap:
+    needs: deploy
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main, fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install
+      - name: Email recap of new picks
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECAP_TO: ${{ secrets.RECAP_TO }}
+          SITE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: node scripts/email-recap.mjs ${{ github.event.before }}

@@ -6,6 +6,11 @@
     "thumbs": "node scripts/fetch-thumbnails.mjs",
     "serve": "npx --yes serve site"
   },
-  "engines": { "node": ">=18" },
-  "dependencies": { "sharp": "^0.33.5" }
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "sharp": "^0.33.5",
+    "nodemailer": "^6.9.16"
+  }
 }

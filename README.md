@@ -41,3 +41,16 @@ products, commits them, and publishes `site/` to GitHub Pages.
 
 Add entries to the end of `site/items.json` with the next `id` and push. Each run of the thumbnail
 script visits every ShopMy link that still has no photo, so expect a few extra clicks in ShopMy stats.
+
+## Recap email
+
+After each publish that adds new products, the site emails a recap (photos, names and notes) to Miranda.
+It sends from a Gmail account using three repository secrets (Settings → Secrets and variables → Actions):
+
+- `GMAIL_USER`: the Gmail address to send from
+- `GMAIL_APP_PASSWORD`: an app password for that account (https://myaccount.google.com/apppasswords)
+- `RECAP_TO`: who receives it (comma-separate several addresses)
+
+If any are missing, the step is skipped. To preview the email locally, run
+`RECAP_DRY_RUN=1 GMAIL_USER=x GMAIL_APP_PASSWORD=x RECAP_TO=x node scripts/email-recap.mjs HEAD~1`,
+which writes `recap-preview.html`.
