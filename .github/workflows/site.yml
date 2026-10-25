@@ -5,6 +5,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      test_recap:
+        description: "Send a test recap email (5 sample picks)"
+        type: boolean
+        default: false
 permissions:
   contents: write
   pages: write
@@ -46,7 +51,7 @@ jobs:
         uses: actions/deploy-pages@v4
   recap:
     needs: deploy
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || inputs.test_recap
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -60,4 +65,4 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           RECAP_TO: ${{ secrets.RECAP_TO }}
           SITE_URL: ${{ needs.deploy.outputs.page_url }}
-        run: node scripts/email-recap.mjs ${{ github.event.before }}
+        run: node scripts/email-recap.mjs ${{ inputs.test_recap && '--test' || github.event.before }}

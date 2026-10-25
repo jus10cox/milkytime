@@ -1,11 +1,13 @@
 // Emails Miranda a recap of products added to site/items.json since the previous commit.
 // Usage: node scripts/email-recap.mjs <previous-commit-sha>
+//        node scripts/email-recap.mjs --test   (sends the 5 newest picks as a sample, marked [Test])
 // Needs env: GMAIL_USER, GMAIL_APP_PASSWORD, RECAP_TO (comma-separated), SITE_URL.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs/promises";
 import nodemailer from "nodemailer";
 
 const before = process.argv[2];
+const TEST = before === "--test";
 const { GMAIL_USER, GMAIL_APP_PASSWORD, RECAP_TO, SITE_URL = "https://milkytime.shop" } = process.env;
 if (!GMAIL_USER || !GMAIL_APP_PASSWORD || !RECAP_TO) {
   console.log("Email secrets not set; skipping recap.");
@@ -13,8 +15,8 @@ if (!GMAIL_USER || !GMAIL_APP_PASSWORD || !RECAP_TO) {
 }
 
 const now = JSON.parse(await fs.readFile("site/items.json", "utf8"));
-let old = { items: [] };
-try {
+let old = { items: now.items.slice(0, -5) };
+if (!TEST) try {
   old = JSON.parse(execFileSync("git", ["show", `${before}:site/items.json`], { encoding: "utf8", maxBuffer: 50e6 }));
 } catch {
   console.log("No previous items.json to compare against; skipping recap.");
@@ -62,7 +64,7 @@ const info = await mail.sendMail({
   from: `"Milky Time Shop" <${GMAIL_USER}>`,
   to: RECAP_TO,
   replyTo: GMAIL_USER,
-  subject: `${added.length} new ${added.length === 1 ? "pick" : "picks"} added to the Milky Time Shop`,
+  subject: `${TEST ? "[Test] " : ""}${added.length} new ${added.length === 1 ? "pick" : "picks"} added to the Milky Time Shop`,
   text,
   html,
 });
