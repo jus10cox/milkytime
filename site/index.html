@@ -47,8 +47,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .search{flex:1 1 100%;min-width:0}
 .search input{width:100%;box-sizing:border-box;font:inherit;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink)}
 .search input::placeholder{color:var(--muted)}
-.row select{flex:1 1 140px}
-select{font:inherit;font-size:.88rem;padding:8px 40px 8px 16px;border:1px solid var(--line);border-radius:999px;color:var(--ink);max-width:100%;-webkit-appearance:none;appearance:none;cursor:pointer;background-color:var(--paper);background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 21px) 52%,calc(100% - 16px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.row select,.row .dd{flex:1 1 140px}
+select,.dd-btn{font:inherit;font-size:.88rem;padding:8px 40px 8px 16px;border:1px solid var(--line);border-radius:999px;color:var(--ink);max-width:100%;-webkit-appearance:none;appearance:none;cursor:pointer;background-color:var(--paper);background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 21px) 52%,calc(100% - 16px) 52%;background-size:5px 5px;background-repeat:no-repeat}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 main{padding-block:28px 70px}
 .head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:22px}
@@ -84,7 +84,17 @@ footer .fine{margin-top:10px;font-size:.78rem}
 .sub{margin-top:6px;font:500 .72rem var(--body);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--accent);border:1px solid currentColor;border-radius:999px;padding:9px 20px}
 .sub:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 footer a{color:var(--ink)}
-@media (min-width:760px){.search{flex:0 1 380px}.row select{flex:0 1 auto}}
+ /* custom dropdown: always opens downward */
+.dd{position:relative;min-width:0}
+.dd select{position:absolute;inset:0;opacity:0;pointer-events:none}
+.dd-btn{display:block;width:100%;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dd-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:100%;width:max-content;max-width:min(360px,calc(100vw - 32px));max-height:min(60vh,420px);overflow:auto;margin:0;padding:6px;list-style:none;background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(59,48,42,.14);z-index:20}
+.dd-menu li{padding:8px 12px 8px 28px;border-radius:8px;cursor:pointer;font-size:.9rem;position:relative;color:var(--ink)}
+.dd-menu li:hover,.dd-menu li.active{background:var(--band)}
+.dd-menu li[aria-selected="true"]{color:var(--accent)}
+.dd-menu li[aria-selected="true"]::before{content:"";position:absolute;left:11px;top:50%;width:5px;height:9px;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:translateY(-65%) rotate(45deg)}
+.row .dd:last-child .dd-menu{left:auto;right:0}
+@media (min-width:760px){.search{flex:0 1 380px}.row select,.row .dd{flex:0 1 auto}}
 @media (max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}.card h3{font-size:1.08rem}.card blockquote{font-size:.92rem}.thumb.ph span{font-size:4rem}.chips{justify-content:flex-start}}
 @media (prefers-reduced-motion:reduce){.thumb img{transition:none}}
 </style>
@@ -163,6 +173,38 @@ function render(){
   document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.cat===state.cat));
 }
 chips(); issues(); $("#issue").value = state.issue; render();
+// Replace the browser's native menus (which may pop upward) with ones that always open below.
+function dropdown(sel){
+  const wrap = document.createElement("div"); wrap.className = "dd";
+  sel.replaceWith(wrap); wrap.append(sel); sel.tabIndex = -1;
+  const btn = document.createElement("button"); btn.type = "button"; btn.className = "dd-btn";
+  btn.setAttribute("aria-haspopup","listbox"); btn.setAttribute("aria-expanded","false"); btn.setAttribute("aria-label", sel.getAttribute("aria-label"));
+  const menu = document.createElement("ul"); menu.className = "dd-menu"; menu.setAttribute("role","listbox"); menu.hidden = true;
+  wrap.append(btn, menu);
+  let active = 0;
+  const opts = () => [...sel.options];
+  const label = () => { btn.textContent = sel.options[sel.selectedIndex].text; };
+  const paint = () => { menu.querySelectorAll("li").forEach((li,i) => { li.classList.toggle("active", i===active); li.setAttribute("aria-selected", i===sel.selectedIndex); }); };
+  const close = () => { menu.hidden = true; btn.setAttribute("aria-expanded","false"); };
+  const open = () => {
+    menu.innerHTML = opts().map(o => `<li role="option">${esc(o.text)}</li>`).join("");
+    active = sel.selectedIndex; paint(); menu.hidden = false; btn.setAttribute("aria-expanded","true");
+    menu.children[active]?.scrollIntoView({block:"nearest"});
+  };
+  const pick = i => { if (sel.selectedIndex !== i) { sel.selectedIndex = i; sel.dispatchEvent(new Event("change")); } label(); close(); btn.focus(); };
+  btn.addEventListener("click", () => menu.hidden ? open() : close());
+  menu.addEventListener("click", e => { const li = e.target.closest("li"); if (li) pick([...menu.children].indexOf(li)); });
+  btn.addEventListener("keydown", e => {
+    if (menu.hidden) { if (["ArrowDown","ArrowUp","Enter"," "].includes(e.key)) { e.preventDefault(); open(); } return; }
+    if (e.key === "Escape") { close(); }
+    else if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); active = Math.max(0, Math.min(opts().length-1, active + (e.key==="ArrowDown"?1:-1))); paint(); menu.children[active].scrollIntoView({block:"nearest"}); }
+    else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(active); }
+  });
+  document.addEventListener("click", e => { if (!wrap.contains(e.target)) close(); });
+  sel.addEventListener("change", label);
+  label();
+}
+dropdown($("#issue")); dropdown($("#sort"));
 $("#chips").addEventListener("click", e => { const b=e.target.closest(".chip"); if(!b) return; state.cat=b.dataset.cat; state.shown=48; try{localStorage.setItem("mt-filters",JSON.stringify({cat:state.cat}))}catch(e){} render(); });
 $("#q").addEventListener("input", e => { state.q=e.target.value; state.shown=48; render(); });
 $("#issue").addEventListener("change", e => { state.issue=e.target.value; state.shown=48; render(); });
