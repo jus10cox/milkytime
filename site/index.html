@@ -137,7 +137,7 @@ function chips(){
     .map(([v,l,n]) => `<button class="chip" type="button" data-cat="${v}" aria-pressed="${state.cat===v}">${l}<small>${n}</small></button>`).join("");
 }
 function issues(){
-  const opts = Object.entries(POSTS).filter(([s]) => ITEMS.some(i=>i.posts.includes(s))).sort((a,b)=>b[1].date.localeCompare(a[1].date));
+  const opts = Object.entries(POSTS).filter(([s]) => ITEMS.some(i=>i.posts.includes(s))).sort((a,b)=>a[1].date.localeCompare(b[1].date)); // oldest issue first
   $("#issue").insertAdjacentHTML("beforeend", opts.map(([s,p]) => `<option value="${s}">${esc(p.title)}</option>`).join(""));
 }
 function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
