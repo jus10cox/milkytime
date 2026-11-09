@@ -1,5 +1,10 @@
 {
  "posts": {
+  "the-october-review": {
+   "title": "The October Review",
+   "date": "2026-11-08",
+   "url": "https://milkytime.substack.com/p/the-october-review"
+  },
   "brushed-cashmere-chic-storage-and": {
    "title": "Brushed cashmere, chic storage, and no-fail snacks.",
    "date": "2026-10-25",
@@ -6627,7 +6632,8 @@
    "note": "I'd pair the red with the powder crate.",
    "cat": "Home & gifts",
    "posts": [
-    "brushed-cashmere-chic-storage-and"
+    "brushed-cashmere-chic-storage-and",
+    "the-october-review"
    ],
    "date": "2026-10-25"
   },
@@ -6780,7 +6786,8 @@
    "note": "From Big Night, the most charming store.",
    "cat": "Home & gifts",
    "posts": [
-    "brushed-cashmere-chic-storage-and"
+    "brushed-cashmere-chic-storage-and",
+    "the-october-review"
    ],
    "date": "2026-10-25",
    "img": "thumbs/532.webp"
@@ -6953,6 +6960,162 @@
    ],
    "date": "2026-10-25",
    "img": "thumbs/545.webp"
+  },
+  {
+   "id": 546,
+   "name": "Lalo The Hook-On Chair",
+   "href": "https://go.shopmy.us/p-102217162",
+   "alt": null,
+   "note": "We swapped the high chair for this travel chair and it's working out so well; clean it with a textured cloth, not paper towels.",
+   "cat": "Feeding",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 547,
+   "name": "Alex Mill Taylor Rollneck Cardigan in Cotton Cashmere",
+   "href": "https://go.shopmy.us/p-102408108",
+   "alt": null,
+   "note": "One of my favorite purchases this month; I got the cotton cashmere blend in fire red.",
+   "cat": "Mom style",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 548,
+   "name": "Alex Mill Taylor Striped Cardigan in Cotton Cashmere",
+   "href": "https://go.shopmy.us/p-102408739",
+   "alt": null,
+   "note": "This classic Breton stripe is already waiting in my cart.",
+   "cat": "Mom style",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 549,
+   "name": "Alex Mill Taylor Rollneck Cardigan, Neutral",
+   "href": "https://go.shopmy.us/p-102409254",
+   "alt": null,
+   "note": "The neutral I have waiting in my cart.",
+   "cat": "Mom style",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 550,
+   "name": "Alex Mill Elizabeth Cardigan in Washed Cashmere",
+   "href": "https://go.shopmy.us/p-102409578",
+   "alt": null,
+   "note": "Way spendier but incredibly lush; when something is this good, you just buy it.",
+   "cat": "Mom style",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 551,
+   "name": "Chan Luu Techno Taffeta Long Shorts",
+   "href": "https://go.shopmy.us/p-102427507",
+   "alt": null,
+   "note": "I never knew how badly I needed taffeta shorts; my new favorite wildly confusing article of clothing.",
+   "cat": "Mom style",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 552,
+   "name": "Dôen Ischia Dress, Noir Dot",
+   "href": "https://go.shopmy.us/p-97706075",
+   "alt": null,
+   "note": "However my body expands or contracts, I always feel like the best version of myself in this style.",
+   "cat": "Mom style",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 553,
+   "name": "Vibe by Adam Grant",
+   "href": "https://go.shopmy.us/p-102310646",
+   "alt": null,
+   "note": "Recommended to me by my therapist; I haven't read it yet, but I'm taking note of this author.",
+   "cat": "Books",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 554,
+   "name": "Atmosphere by Taylor Jenkins Reid",
+   "href": "https://go.shopmy.us/p-102311696",
+   "alt": null,
+   "note": "I'm listening to the audiobook, co-voiced by one of my fav voice actors, Julia Whelan.",
+   "cat": "Books",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 555,
+   "name": "Hill House Home Lorelai Nightgown",
+   "href": "https://go.shopmy.us/p-102415706",
+   "alt": null,
+   "note": "For living my Pamela Anderson-in-a-white-cotton-chemise garden fantasy.",
+   "cat": "Mom style",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 556,
+   "name": "Kaaterskill Market Long Gardener's Basket",
+   "href": "https://go.shopmy.us/p-98332471",
+   "alt": null,
+   "note": "The other half of my Pamela Anderson garden fantasy.",
+   "cat": "Home & gifts",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 557,
+   "name": "Big Night Half Shell Cutlery Set",
+   "href": "https://go.shopmy.us/p-98005909",
+   "alt": null,
+   "note": "I indulged myself, and I think I'll buy more for friends come the holidays.",
+   "cat": "Home & gifts",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
+  },
+  {
+   "id": 558,
+   "name": "Graf Lantz Merino Wool Felt Coasters",
+   "href": "https://go.shopmy.us/p-102423625",
+   "alt": null,
+   "note": "I loved these, but my kiddo wears them as hats and they collect rug fuzz and dog fur on the floor.",
+   "cat": "Home & gifts",
+   "posts": [
+    "the-october-review"
+   ],
+   "date": "2026-11-08"
   }
  ]
 }
